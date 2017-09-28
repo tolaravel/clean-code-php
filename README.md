@@ -1,85 +1,91 @@
 # Clean Code PHP
 
-## Table of Contents
+## 目录
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-     * [Use meaningful and pronounceable variable names](#use-meaningful-and-pronounceable-variable-names)
-     * [Use the same vocabulary for the same type of variable](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [Use searchable names (part 1)](#use-searchable-names-part-1)
-     * [Use searchable names (part 2)](#use-searchable-names-part-2)
-     * [Use explanatory variables](#use-explanatory-variables)
-     * [Avoid nesting too deeply and return early (part 1)](#avoid-nesting-too-deeply-and-return-early-part-1)
-     * [Avoid nesting too deeply and return early (part 2)](#avoid-nesting-too-deeply-and-return-early-part-2)
-     * [Avoid Mental Mapping](#avoid-mental-mapping)
-     * [Don't add unneeded context](#dont-add-unneeded-context)
-     * [Use default arguments instead of short circuiting or conditionals](#use-default-arguments-instead-of-short-circuiting-or-conditionals)
-  3. [Functions](#functions)
-     * [Function arguments (2 or fewer ideally)](#function-arguments-2-or-fewer-ideally)
-     * [Functions should do one thing](#functions-should-do-one-thing)
-     * [Function names should say what they do](#function-names-should-say-what-they-do)
-     * [Functions should only be one level of abstraction](#functions-should-only-be-one-level-of-abstraction)
-     * [Don't use flags as function parameters](#dont-use-flags-as-function-parameters)
-     * [Avoid Side Effects](#avoid-side-effects)
-     * [Don't write to global functions](#dont-write-to-global-functions)
-     * [Don't use a Singleton pattern](#dont-use-a-singleton-pattern)
-     * [Encapsulate conditionals](#encapsulate-conditionals)
-     * [Avoid negative conditionals](#avoid-negative-conditionals)
-     * [Avoid conditionals](#avoid-conditionals)
-     * [Avoid type-checking (part 1)](#avoid-type-checking-part-1)
-     * [Avoid type-checking (part 2)](#avoid-type-checking-part-2)
-     * [Remove dead code](#remove-dead-code)
-  4. [Objects and Data Structures](#objects-and-data-structures)
-     * [Use object encapsulation](#use-object-encapsulation)
-     * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
-  5. [Classes](#classes)
-     * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
-     * [Avoid fluent interfaces](#avoid-fluent-interfaces)
-  6. [SOLID](#solid)
-     * [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
-     * [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
-     * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
-     * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
-     * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  7. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  8. [Translations](#translations)
+  1. [介绍](#介绍)
+  2. [变量](#变量)
+     * [使用见字知意的变量名](#使用见字知意的变量名)
+     * [同一个实体要用相同的变量名](#同一个实体要用相同的变量名)
+     * [使用便于搜索的名称 (part 1)](#使用便于搜索的名称part-1)
+     * [使用便于搜索的名称 (part 2)](#使用便于搜索的名称part-2)
+     * [使用自解释型变量](#使用自解释型变量)
+     * [使用自解释型变量](#使用自解释型变量)
+     * [避免深层嵌套，尽早返回 (part 1)](#避免深层嵌套尽早返回-part-1)
+     * [避免深层嵌套，尽早返回 (part 2)](#避免深层嵌套尽早返回-part-2)
+     * [少用无意义的变量名](#少用无意义的变量名)
+     * [不要添加不必要上下文](#不要添加不必要上下文)
+     * [合理使用参数默认值，没必要在方法里再做默认值检测](#合理使用参数默认值没必要在方法里再做默认值检测)
+  3. [函数](#函数)
+     * [函数参数（最好少于2个）](#函数参数-最好少于2个)
+     * [函数应该只做一件事](#函数应该只做一件事)
+     * [函数名应该是有意义的动词（或表明具体做了什么事）](#函数名应该是有意义的动词或表明具体做了什么事)
+     * [函数里应当只有一层抽象abstraction](#函数里应当只有一层抽象abstraction)
+     * [不要用flag作为函数的参数](#不要用flag作为函数的参数)
+     * [避免副作用](#避免副作用)
+     * [不要写全局函数](#不要写全局函数)
+     * [不要使用单例模式](#不要使用单例模式)
+     * [封装条件语句](#封装条件语句)
+     * [避免用反义条件判断](#避免用反义条件判断)
+     * [避免条件判断](#避免条件判断)
+     * [避免类型检查 (part 1)](#避免类型检查-part-1)
+     * [避免类型检查 (part 2)](#避免类型检查-part-2)
+     * [移除僵尸代码](#移除僵尸代码)
+  4. [对象和数据结构 Objects and Data Structures](#对象和数据结构)
+     * [使用 getters 和 setters Use object encapsulation](#使用-getters-和-setters)
+     * [对象属性多使用private/protected限定](#对象属性多使用privateprotected限定)
+  5. [类](#类)
+     * [组合优于继承](#组合优于继承)
+     * [避免连贯接口](#避免连贯接口)
+  6. [类的SOLID原则 SOLID](#solid)
+     * [S: 职责单一原则 Single Responsibility Principle (SRP)](#职责单一原则-single-responsibility-principle-srp)
+     * [O: 开闭原则 Open/Closed Principle (OCP)](#开闭原则-openclosed-principle-ocp)
+     * [L: 里氏替换原则 Liskov Substitution Principle (LSP)](#里氏替换原则-liskov-substitution-principle-lsp)
+     * [I: 接口隔离原则 Interface Segregation Principle (ISP)](#接口隔离原则-interface-segregation-principle-isp)
+     * [D: 依赖反转原则 Dependency Inversion Principle (DIP)](#依赖反转原则-dependency-inversion-principle-dip)
+  7. [别写重复代码 (DRY)](#别写重复代码-dry)
+  8. [翻译](#翻译)
 
-## Introduction
+## 介绍
 
-Software engineering principles, from Robert C. Martin's book
-[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
 
-Not every principle herein has to be strictly followed, and even fewer will be universally 
-agreed upon. These are guidelines and nothing more, but they are ones codified over many 
-years of collective experience by the authors of *Clean Code*.
+本文参考自 Robert C. Martin的[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)  书中的软件工程师的原则
+,适用于PHP。 这不是风格指南。 这是一个关于开发可读、可复用并且可重构的PHP软件指南。
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+并不是这里所有的原则都得遵循，甚至很少的能被普遍接受。 这些虽然只是指导，但是都是*Clean Code*作者多年总结出来的。
 
-Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.
+本文受到 [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript) 的启发
 
-## Variables
+虽然很多开发者还在使用PHP5，但是本文中的大部分示例的运行环境需要PHP 7.1+。
 
-### Use meaningful and pronounceable variable names
+## 翻译说明
 
-**Bad:**
+本文由 php-cpm 基于 [yangweijie版本](https://github.com/yangweijie/clean-code-php) 的[clean-code-php](https://github.com/jupeter/clean-code-php)翻译并同步大量原文内容。
+
+原文更新频率较高，我的翻译方法是直接用文本比较工具逐行对比。优先保证文字内容是最新的，再逐步提升翻译质量。
+
+阅读过程中如果遇到各种链接失效、内容老旧、术语使用错误和其他翻译错误等问题，欢迎大家积极提交PR。
+
+## **变量**
+
+### 使用见字知意的变量名
+
+**坏:**
 
 ```php
 $ymdstr = $moment->format('y-m-d');
 ```
 
-**Good:**
+**好:**
 
 ```php
 $currentDate = $moment->format('y-m-d');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Use the same vocabulary for the same type of variable
+### 同一个实体要用相同的变量名
 
-**Bad:**
+**坏:**
 
 ```php
 getUserInfo();
@@ -88,37 +94,34 @@ getUserRecord();
 getUserProfile();
 ```
 
-**Good:**
+**好:**
 
 ```php
 getUser();
 ```
+**[⬆ 返回顶部](#目录)**
 
-**[⬆ back to top](#table-of-contents)**
+### 使用便于搜索的名称 (part 1)
+写代码是用来读的。所以写出可读性高、便于搜索的代码至关重要。
+命名变量时如果没有有意义、不好理解，那就是在伤害读者。
+请让你的代码便于搜索。
 
-### Use searchable names (part 1)
-
-We will read more code than we will ever write. It's important that the code we do write is 
-readable and searchable. By *not* naming variables that end up being meaningful for 
-understanding our program, we hurt our readers.
-Make your names searchable.
-
-**Bad:**
-
+**坏:**
 ```php
 // What the heck is 448 for?
 $result = $serializer->serialize($data, 448);
 ```
 
-**Good:**
+**好:**
 
 ```php
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
 
-**Bad:**
+### 使用便于搜索的名称 (part 2)
+
+**坏:**
 
 ```php
 // What the heck is 4 for?
@@ -127,7 +130,7 @@ if ($user->access & 4) {
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class User
@@ -143,12 +146,12 @@ if ($user->access & User::ACCESS_UPDATE) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Use explanatory variables
 
-**Bad:**
+### 使用自解释型变量
 
+**坏:**
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
 $cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
@@ -157,9 +160,9 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches[1], $matches[2]);
 ```
 
-**Not bad:**
+**不错:**
 
-It's better, but we are still heavily dependent on regex.
+好一些，但强依赖于正则表达式的熟悉程度
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -170,9 +173,9 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($city, $zipCode);
 ```
 
-**Good:**
+**好:**
 
-Decrease dependence on regex by naming subpatterns.
+使用带名字的子规则，不用懂正则也能看的懂
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -182,14 +185,13 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches['city'], $matches['zipCode']);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid nesting too deeply and return early (part 1)
+### 避免深层嵌套，尽早返回 (part 1)
 
-Too many if else statements can make your code hard to follow. Explicit is better
-than implicit.
+太多的if else语句通常会导致你的代码难以阅读，直白优于隐晦
 
-**Bad:**
+**糟糕:**
 
 ```php
 function isShopOpen($day): bool
@@ -215,7 +217,7 @@ function isShopOpen($day): bool
 }
 ```
 
-**Good:**
+**好的:**
 
 ```php
 function isShopOpen(string $day): bool
@@ -232,11 +234,11 @@ function isShopOpen(string $day): bool
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid nesting too deeply and return early (part 2)
+### 避免深层嵌套，尽早返回 (part 2)
 
-**Bad:**
+**糟糕的:**
 
 ```php
 function fibonacci(int $n)
@@ -257,7 +259,7 @@ function fibonacci(int $n)
 }
 ```
 
-**Good:**
+**好的:**
 
 ```php
 function fibonacci(int $n): int
@@ -274,14 +276,14 @@ function fibonacci(int $n): int
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid Mental Mapping
+### 少用无意义的变量名
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+别让读你的代码的人猜你写的变量是什么意思。
+写清楚好过模糊不清。
 
-**Bad:**
+**坏:**
 
 ```php
 $l = ['Austin', 'New York', 'San Francisco'];
@@ -293,12 +295,12 @@ for ($i = 0; $i < count($l); $i++) {
     // ...
     // ...
     // ...
-    // Wait, what is `$li` for again?
+  // 等等, `$li` 又代表什么?
     dispatch($li);
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 $locations = ['Austin', 'New York', 'San Francisco'];
@@ -313,14 +315,13 @@ foreach ($locations as $location) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Don't add unneeded context
+### 不要添加不必要上下文
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+如果从你的类名、对象名已经可以得知一些信息，就别再在变量名里重复。
 
-**Bad:**
+**坏:**
 
 ```php
 class Car
@@ -333,7 +334,7 @@ class Car
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class Car
@@ -346,11 +347,11 @@ class Car
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Use default arguments instead of short circuiting or conditionals
+### 合理使用参数默认值，没必要在方法里再做默认值检测
 
-**Not good:**
+**不好:**
 
 This is not good because `$breweryName` can be `NULL`.
 
@@ -361,7 +362,7 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
 }
 ```
 
-**Not bad:**
+**还行:**
 
 This opinion is more understandable than the previous version, but it better controls the value of the variable.
 
@@ -373,7 +374,7 @@ function createMicrobrewery($name = null): void
 }
 ```
 
-**Good:**
+**好:**
 
 If you support only PHP 7+, then you can use [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) and be sure that the `$breweryName` will not be `NULL`.
 
@@ -384,22 +385,15 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-## Functions
+## **函数**
+### 函数参数（最好少于2个）
+限制函数参数个数极其重要，这样测试你的函数容易点。有超过3个可选参数参数导致一个爆炸式组合增长，你会有成吨独立参数情形要测试。
 
-### Function arguments (2 or fewer ideally)
+无参数是理想情况。1个或2个都可以，最好避免3个。再多就需要加固了。通常如果你的函数有超过两个参数，说明他要处理的事太多了。 如果必须要传入很多数据，建议封装一个高级别对象作为参数。
 
-Limiting the amount of function parameters is incredibly important because it makes 
-testing your function easier. Having more than three leads to a combinatorial explosion 
-where you have to test tons of different cases with each separate argument.
-
-Zero arguments is the ideal case. One or two arguments is ok, and three should be avoided. 
-Anything more than that should be consolidated. Usually, if you have more than two 
-arguments then your function is trying to do too much. In cases where it's not, most 
-of the time a higher-level object will suffice as an argument.
-
-**Bad:**
+**坏:**
 
 ```php
 function createMenu(string $title, string $body, string $buttonText, bool $cancellable): void
@@ -408,7 +402,7 @@ function createMenu(string $title, string $body, string $buttonText, bool $cance
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class MenuConfig
@@ -431,17 +425,12 @@ function createMenu(MenuConfig $config): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Functions should do one thing
+### 函数应该只做一件事
+这是迄今为止软件工程里最重要的一个规则。当一个函数做超过一件事的时候，他们就难于实现、测试和理解。当你把一个函数拆分到只剩一个功能时，他们就容易被重构，然后你的代码读起来就更清晰。如果你光遵循这条规则，你就领先于大多数开发者了。
 
-This is by far the most important rule in software engineering. When functions do more 
-than one thing, they are harder to compose, test, and reason about. When you can isolate 
-a function to just one action, they can be refactored easily and your code will read much 
-cleaner. If you take nothing else away from this guide other than this, you'll be ahead 
-of many developers.
-
-**Bad:**
+**坏:**
 ```php
 function emailClients(array $clients): void
 {
@@ -454,7 +443,7 @@ function emailClients(array $clients): void
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function emailClients(array $clients): void
@@ -475,12 +464,11 @@ function isClientActive(int $client): bool
     return $clientRecord->isActive();
 }
 ```
+**[⬆ 返回顶部](#目录)**
 
-**[⬆ back to top](#table-of-contents)**
+### 函数名应该是有意义的动词（或表明具体做了什么事）
 
-### Function names should say what they do
-
-**Bad:**
+**坏:**
 
 ```php
 class Email
@@ -494,11 +482,11 @@ class Email
 }
 
 $message = new Email(...);
-// What is this? A handle for the message? Are we writing to a file now?
+// 啥？handle处理一个消息干嘛了？是往一个文件里写码？
 $message->handle();
 ```
 
-**Good:**
+**好:**
 
 ```php
 class Email 
@@ -512,19 +500,18 @@ class Email
 }
 
 $message = new Email(...);
-// Clear and obvious
+// 简单明了
 $message->send();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Functions should only be one level of abstraction
+### 函数里应当只有一层抽象abstraction
 
-When you have more than one level of abstraction your function is usually
-doing too much. Splitting up functions leads to reusability and easier
-testing.
+当你抽象层次过多时时，函数处理的事情太多了。需要拆分功能来提高可重用性和易用性，以便简化测试。
+（译者注：这里从示例代码看应该是指嵌套过多）
 
-**Bad:**
+**坏:**
 
 ```php
 function parseBetterJSAlternative(string $code): void
@@ -552,9 +539,9 @@ function parseBetterJSAlternative(string $code): void
 }
 ```
 
-**Bad too:**
+**坏:**
 
-We have carried out some of the functionality, but the `parseBetterJSAlternative()` function is still very complex and not testable.
+我们把一些方法从循环中提取出来，但是`parseBetterJSAlternative()`方法还是很复杂，而且不利于测试。
 
 ```php
 function tokenize(string $code): array
@@ -589,14 +576,14 @@ function parseBetterJSAlternative(string $code): void
     $tokens = tokenize($code);
     $ast = lexer($tokens);
     foreach ($ast as $node) {
-        // parse...
+        // 解析逻辑...
     }
 }
 ```
 
-**Good:**
+**好:**
 
-The best solution is move out the dependencies of `parseBetterJSAlternative()` function.
+最好的解决方案是把 `parseBetterJSAlternative()`方法的依赖移除。
 
 ```php
 class Tokenizer
@@ -648,22 +635,21 @@ class BetterJSAlternative
         $tokens = $this->tokenizer->tokenize($code);
         $ast = $this->lexer->lexify($tokens);
         foreach ($ast as $node) {
-            // parse...
+            // 解析逻辑...
         }
     }
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+这样我们可以对依赖做mock，并测试`BetterJSAlternative::parse()`运行是否符合预期。
 
-### Don't use flags as function parameters
+**[⬆ 返回顶部](#目录)**
 
-Flags tell your user that this function does more than one thing. Functions should 
-do one thing. Split out your functions if they are following different code paths 
-based on a boolean.
 
-**Bad:**
+### 不要用flag作为函数的参数
+flag就是在告诉大家，这个方法里处理很多事。前面刚说过，一个函数应当只做一件事。 把不同flag的代码拆分到多个函数里。
 
+**坏:**
 ```php
 function createFile(string $name, bool $temp = false): void
 {
@@ -675,7 +661,7 @@ function createFile(string $name, bool $temp = false): void
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function createFile(string $name): void
@@ -688,26 +674,16 @@ function createTempFile(string $name): void
     touch('./temp/'.$name);
 }
 ```
+**[⬆ 返回顶部](#目录)**
 
-**[⬆ back to top](#table-of-contents)**
+### 避免副作用
+一个函数做了比获取一个值然后返回另外一个值或值们会产生副作用如果。副作用可能是写入一个文件，修改某些全局变量或者偶然的把你全部的钱给了陌生人。
 
-### Avoid Side Effects
+现在，你的确需要在一个程序或者场合里要有副作用，像之前的例子，你也许需要写一个文件。你想要做的是把你做这些的地方集中起来。不要用几个函数和类来写入一个特定的文件。用一个服务来做它，一个只有一个。
 
-A function produces a side effect if it does anything other than take a value in and 
-return another value or values. A side effect could be writing to a file, modifying 
-some global variable, or accidentally wiring all your money to a stranger.
+重点是避免常见陷阱比如对象间共享无结构的数据，使用可以写入任何的可变数据类型，不集中处理副作用发生的地方。如果你做了这些你就会比大多数程序员快乐。
 
-Now, you do need to have side effects in a program on occasion. Like the previous 
-example, you might need to write to a file. What you want to do is to centralize where 
-you are doing this. Don't have several functions and classes that write to a particular 
-file. Have one service that does it. One and only one.
-
-The main point is to avoid common pitfalls like sharing state between objects without
-any structure, using mutable data types that can be written to by anything, and not 
-centralizing where your side effects occur. If you can do this, you will be happier 
-than the vast majority of other programmers.
-
-**Bad:**
+**坏:**
 
 ```php
 // Global variable referenced by following function.
@@ -726,7 +702,7 @@ splitIntoFirstAndLastName();
 var_dump($name); // ['Ryan', 'McDermott'];
 ```
 
-**Good:**
+**好:**
 
 ```php
 function splitIntoFirstAndLastName(string $name): array
@@ -741,17 +717,15 @@ var_dump($name); // 'Ryan McDermott';
 var_dump($newName); // ['Ryan', 'McDermott'];
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Don't write to global functions
+### 不要写全局函数
+在大多数语言中污染全局变量是一个坏的实践，因为你可能和其他类库冲突
+并且调用你api的人直到他们捕获异常才知道踩坑了。让我们思考一种场景：
+如果你想配置一个数组，你可能会写一个全局函数`config()`，但是他可能
+和试着做同样事的其他类库冲突。
 
-Polluting globals is a bad practice in many languages because you could clash with another 
-library and the user of your API would be none-the-wiser until they get an exception in 
-production. Let's think about an example: what if you wanted to have configuration array. 
-You could write global function like `config()`, but it could clash with another library 
-that tried to do the same thing.
-
-**Bad:**
+**坏:**
 
 ```php
 function config(): array
@@ -762,7 +736,7 @@ function config(): array
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class Configuration
@@ -791,19 +765,19 @@ $configuration = new Configuration([
 
 And now you must use instance of `Configuration` in your application.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Don't use a Singleton pattern
+### 不要使用单例模式
 
-Singleton is an [anti-pattern](https://en.wikipedia.org/wiki/Singleton_pattern). Paraphrased from Brian Button:
- 1. They are generally used as a **global instance**, why is that so bad? Because **you hide the dependencies** of your application in your code, instead of exposing them through the interfaces. Making something global to avoid passing it around is a [code smell](https://en.wikipedia.org/wiki/Code_smell).
- 2. They violate the [single responsibility principle](#single-responsibility-principle-srp): by virtue of the fact that **they control their own creation and lifecycle**.
- 3. They inherently cause code to be tightly [coupled](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29). This makes faking them out under **test rather difficult** in many cases.
- 4. They carry state around for the lifetime of the application. Another hit to testing since **you can end up with a situation where tests need to be ordered** which is a big no for unit tests. Why? Because each unit test should be independent from the other.
+单例是一种 [反模式](https://en.wikipedia.org/wiki/Singleton_pattern).  以下是解释：Paraphrased from Brian Button:
+ 1. 总是被用成全局实例。They are generally used as a **global instance**, why is that so bad? Because **you hide the dependencies** of your application in your code, instead of exposing them through the interfaces. Making something global to avoid passing it around is a [code smell](https://en.wikipedia.org/wiki/Code_smell).
+ 2. 违反了[单一响应原则]()They violate the [single responsibility principle](#single-responsibility-principle-srp): by virtue of the fact that **they control their own creation and lifecycle**.
+ 3. 导致代码强耦合They inherently cause code to be tightly [coupled](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29). This makes faking them out under **test rather difficult** in many cases.
+ 4. 在整个程序的生命周期中始终携带状态。They carry state around for the lifetime of the application. Another hit to testing since **you can end up with a situation where tests need to be ordered** which is a big no for unit tests. Why? Because each unit test should be independent from the other.
 
-There is also very good thoughts by [Misko Hevery](http://misko.hevery.com/about/) about the [root of problem](http://misko.hevery.com/2008/08/25/root-cause-of-singletons/).
+这里有一篇非常好的讨论单例模式的[根本问题((http://misko.hevery.com/2008/08/25/root-cause-of-singletons/)的文章，是[Misko Hevery](http://misko.hevery.com/about/) 写的。
 
-**Bad:**
+**坏:**
 
 ```php
 class DBConnection
@@ -830,7 +804,7 @@ class DBConnection
 $singleton = DBConnection::getInstance();
 ```
 
-**Good:**
+**好:**
 
 ```php
 class DBConnection
@@ -852,11 +826,11 @@ $connection = new DBConnection($dsn);
 
 And now you must use instance of `DBConnection` in your application.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Encapsulate conditionals
+### 封装条件语句
 
-**Bad:**
+**坏:**
 
 ```php
 if ($article->state === 'published') {
@@ -864,19 +838,18 @@ if ($article->state === 'published') {
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 if ($article->isPublished()) {
     // ...
 }
 ```
+**[⬆ 返回顶部](#目录)**
 
-**[⬆ back to top](#table-of-contents)**
+### 避免用反义条件判断
 
-### Avoid negative conditionals
-
-**Bad:**
+**坏:**
 
 ```php
 function isDOMNodeNotPresent(\DOMNode $node): bool
@@ -890,7 +863,7 @@ if (!isDOMNodeNotPresent($node))
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function isDOMNodePresent(\DOMNode $node): bool
@@ -903,20 +876,18 @@ if (isDOMNodePresent($node)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid conditionals
+### 避免条件判断
 
-This seems like an impossible task. Upon first hearing this, most people say,
-"how am I supposed to do anything without an `if` statement?" The answer is that
-you can use polymorphism to achieve the same task in many cases. The second
-question is usually, "well that's great but why would I want to do that?" The
-answer is a previous clean code concept we learned: a function should only do
-one thing. When you have classes and functions that have `if` statements, you
-are telling your user that your function does more than one thing. Remember,
-just do one thing.
+这看起来像一个不可能任务。当人们第一次听到这句话是都会这么说。
+"没有`if语句`我还能做啥？" 答案是你可以使用多态来实现多种场景
+的相同任务。第二个问题很常见， “这么做可以，但为什么我要这么做？”
+ 答案是前面我们学过的一个Clean Code原则：一个函数应当只做一件事。
+ 当你有很多含有`if`语句的类和函数时,你的函数做了不止一件事。
+ 记住，只做一件事。
 
-**Bad:**
+**坏:**
 
 ```php
 class Airplane
@@ -937,7 +908,7 @@ class Airplane
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 interface Airplane
@@ -978,16 +949,15 @@ class Cessna implements Airplane
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid type-checking (part 1)
+### 避免类型检查 (part 1)
 
-PHP is untyped, which means your functions can take any type of argument.
-Sometimes you are bitten by this freedom and it becomes tempting to do
-type-checking in your functions. There are many ways to avoid having to do this.
-The first thing to consider is consistent APIs.
+PHP是弱类型的,这意味着你的函数可以接收任何类型的参数。
+有时候你为这自由所痛苦并且在你的函数渐渐尝试类型检查。
+有很多方法去避免这么做。第一种是统一API。
 
-**Bad:**
+**坏:**
 
 ```php
 function travelToTexas($vehicle): void
@@ -1000,7 +970,7 @@ function travelToTexas($vehicle): void
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function travelToTexas(Traveler $vehicle): void
@@ -1009,21 +979,15 @@ function travelToTexas(Traveler $vehicle): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid type-checking (part 2)
+### 避免类型检查 (part 2)
+如果你正使用基本原始值比如字符串、整形和数组，要求版本是PHP 7+，不用多态，需要类型检测，
+那你应当考虑[类型声明](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration)或者严格模式。
+提供了基于标准PHP语法的静态类型。 手动检查类型的问题是做好了需要好多的废话，好像为了安全就可以不顾损失可读性。
+保持你的PHP 整洁，写好测试，做好代码回顾。做不到就用PHP严格类型声明和严格模式来确保安全。
 
-If you are working with basic primitive values like strings, integers, and arrays,
-and you use PHP 7+ and you can't use polymorphism but you still feel the need to
-type-check, you should consider
-[type declaration](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration)
-or strict mode. It provides you with static typing on top of standard PHP syntax.
-The problem with manually type-checking is that doing it will require so much
-extra verbiage that the faux "type-safety" you get doesn't make up for the lost
-readability. Keep your PHP clean, write good tests, and have good code reviews.
-Otherwise, do all of that but with PHP strict type declaration or strict mode.
-
-**Bad:**
+**坏:**
 
 ```php
 function combine($val1, $val2): int
@@ -1036,7 +1000,7 @@ function combine($val1, $val2): int
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function combine(int $val1, int $val2): int
@@ -1045,16 +1009,13 @@ function combine(int $val1, int $val2): int
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Remove dead code
+### 移除僵尸代码
+僵尸代码和重复代码一样坏。没有理由保留在你的代码库中。如果从来没被调用过，就删掉！
+因为还在代码版本库里，因此很安全。
 
-Dead code is just as bad as duplicate code. There's no reason to keep it in
-your codebase. If it's not being called, get rid of it! It will still be safe
-in your version history if you still need it.
-
-**Bad:**
-
+**坏:**
 ```php
 function oldRequestModule(string $url): void
 {
@@ -1070,7 +1031,7 @@ $request = newRequestModule($requestUrl);
 inventoryTracker('apples', $request, 'www.inventory-awesome.io');
 ```
 
-**Good:**
+**好:**
 
 ```php
 function requestModule(string $url): void
@@ -1082,28 +1043,24 @@ $request = requestModule($requestUrl);
 inventoryTracker('apples', $request, 'www.inventory-awesome.io');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
 
-## Objects and Data Structures
+## 对象和数据结构
 
-### Use object encapsulation
+### 使用 getters 和 setters
+在PHP中你可以对方法使用`public`, `protected`, `private` 来控制对象属性的变更。
 
-In PHP you can set `public`, `protected` and `private` keywords for methods. 
-Using it, you can control properties modification on an object. 
+* 当你想对对象属性做获取之外的操作时，你不需要在代码中去寻找并修改每一个该属性访问方法
+* 当有`set`对应的属性方法时，易于增加参数的验证
+* 封装内部的表示
+* 使用set*和get*时，易于增加日志和错误控制
+* 继承当前类时，可以复写默认的方法功能
+* 当对象属性是从远端服务器获取时，get*，set*易于使用延迟加载
 
-* When you want to do more beyond getting an object property, you don't have
-to look up and change every accessor in your codebase.
-* Makes adding validation simple when doing a `set`.
-* Encapsulates the internal representation.
-* Easy to add logging and error handling when getting and setting.
-* Inheriting this class, you can override default functionality.
-* You can lazy load your object's properties, let's say getting it from a
-server.
+此外，这样的方式也符合OOP开发中的[开闭原则](#openclosed-principle-ocp)
 
-Additionally, this is part of [Open/Closed](#openclosed-principle-ocp) principle.
-
-**Bad:**
+**糟糕:**
 
 ```php
 class BankAccount
@@ -1117,7 +1074,7 @@ $bankAccount = new BankAccount();
 $bankAccount->balance -= 100;
 ```
 
-**Good:**
+**好:**
 
 ```php
 class BankAccount
@@ -1158,19 +1115,19 @@ $bankAccount->withdrawBalance($shoesPrice);
 $balance = $bankAccount->getBalance();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Make objects have private/protected members
+### 对象属性多使用private/protected限定
 
-* `public` methods and properties are most dangerous for changes, because some outside code may easily rely on them and you can't control what code relies on them. **Modifications in class are dangerous for all users of class.**
-* `protected` modifier are as dangerous as public, because they are available in scope of any child class. This effectively means that difference between public and protected is only in access mechanism, but encapsulation guarantee remains the same. **Modifications in class are dangerous for all descendant classes.**
-* `private` modifier guarantees that code is **dangerous to modify only in boundaries of single class** (you are safe for modifications and you won't have [Jenga effect](http://www.urbandictionary.com/define.php?term=Jengaphobia&defid=2494196)).
+* 对`public`方法和属性进行修改非常危险，因为外部代码容易依赖他，而你没办法控制。**对之修改影响所有这个类的使用者。** `public` methods and properties are most dangerous for changes, because some outside code may easily rely on them and you can't control what code relies on them. **Modifications in class are dangerous for all users of class.**
+* 对`protected`的修改跟对`public`修改差不多危险，因为他们对子类可用，他俩的唯一区别就是可调用的位置不一样，**对之修改影响所有集成这个类的地方。**  `protected` modifier are as dangerous as public, because they are available in scope of any child class. This effectively means that difference between public and protected is only in access mechanism, but encapsulation guarantee remains the same. **Modifications in class are dangerous for all descendant classes.**
+* 对`private`的修改保证了这部分代码**只会影响当前类**`private` modifier guarantees that code is **dangerous to modify only in boundaries of single class** (you are safe for modifications and you won't have [Jenga effect](http://www.urbandictionary.com/define.php?term=Jengaphobia&defid=2494196)).
 
-Therefore, use `private` by default and `public/protected` when you need to provide access for external classes.
+所以，当你需要控制类里的代码可以被访问时才用`public/protected`，其他时候都用`private`。
 
-For more informations you can read the [blog post](http://fabien.potencier.org/pragmatism-over-theory-protected-vs-private.html) on this topic written by [Fabien Potencier](https://github.com/fabpot).
+可以读一读这篇 [博客文章](http://fabien.potencier.org/pragmatism-over-theory-protected-vs-private.html) ，[Fabien Potencier](https://github.com/fabpot)写的.
 
-**Bad:**
+**糟糕:**
 
 ```php
 class Employee
@@ -1187,7 +1144,7 @@ $employee = new Employee('John Doe');
 echo 'Employee name: '.$employee->name; // Employee name: John Doe
 ```
 
-**Good:**
+**好:**
 
 ```php
 class Employee
@@ -1209,30 +1166,25 @@ $employee = new Employee('John Doe');
 echo 'Employee name: '.$employee->getName(); // Employee name: John Doe
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-## Classes
+## 类
 
-### Prefer composition over inheritance
+### 组合优于继承
 
-As stated famously in [*Design Patterns*](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four,
-you should prefer composition over inheritance where you can. There are lots of
-good reasons to use inheritance and lots of good reasons to use composition.
-The main point for this maxim is that if your mind instinctively goes for
-inheritance, try to think if composition could model your problem better. In some
-cases it can.
+正如  the Gang of Four 所著的[*设计模式*](https://en.wikipedia.org/wiki/Design_Patterns)之前所说，
+我们应该尽量优先选择组合而不是继承的方式。使用继承和组合都有很多好处。
+这个准则的主要意义在于当你本能的使用继承时，试着思考一下`组合`是否能更好对你的需求建模。
+在一些情况下，是这样的。
 
-You might be wondering then, "when should I use inheritance?" It
-depends on your problem at hand, but this is a decent list of when inheritance
-makes more sense than composition:
+接下来你或许会想，“那我应该在什么时候使用继承？” 
+答案依赖于你的问题，当然下面有一些何时继承比组合更好的说明：
 
-1. Your inheritance represents an "is-a" relationship and not a "has-a"
-relationship (Human->Animal vs. User->UserDetails).
-2. You can reuse code from the base classes (Humans can move like all animals).
-3. You want to make global changes to derived classes by changing a base class.
-(Change the caloric expenditure of all animals when they move).
+1. 你的继承表达了“是一个”而不是“有一个”的关系（人类-》动物，用户-》用户详情）
+2. 你可以复用基类的代码（人类可以像动物一样移动）
+3. 你想通过修改基类对所有派生类做全局的修改（当动物移动时，修改她们的能量消耗）
 
-**Bad:**
+**糟糕的:**
 
 ```php
 class Employee 
@@ -1249,8 +1201,10 @@ class Employee
     // ...
 }
 
-// Bad because Employees "have" tax data. 
-// EmployeeTaxData is not a type of Employee
+
+// 不好，因为Employees "有" taxdata
+// 而EmployeeTaxData不是Employee类型的
+
 
 class EmployeeTaxData extends Employee 
 {
@@ -1269,7 +1223,7 @@ class EmployeeTaxData extends Employee
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class EmployeeTaxData 
@@ -1307,13 +1261,12 @@ class Employee
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Avoid fluent interfaces
+### 避免连贯接口
 
-A [Fluent interface](https://en.wikipedia.org/wiki/Fluent_interface) is an object
-oriented API that aims to improve the readability of the source code by using
-[Method chaining](https://en.wikipedia.org/wiki/Method_chaining).
+[连贯接口Fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)是一种
+旨在提高面向对象编程时代码可读性的API设计模式，他基于[方法链Method chaining](https://en.wikipedia.org/wiki/Method_chaining)
 
 While there can be some contexts, frequently builder objects, where this
 pattern reduces the verbosity of the code (for example the [PHPUnit Mock Builder](https://phpunit.de/manual/current/en/test-doubles.html)
@@ -1328,7 +1281,7 @@ more often it comes at some costs:
 For more informations you can read the full [blog post](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
 on this topic written by [Marco Pivetta](https://github.com/Ocramius).
 
-**Bad:**
+**坏:**
 
 ```php
 class Car
@@ -1374,7 +1327,7 @@ $car = (new Car())
   ->dump();
 ```
 
-**Good:**
+**好:**
 
 ```php
 class Car
@@ -1411,30 +1364,30 @@ $car->setModel('F-150');
 $car->dump();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
 ## SOLID
 
-**SOLID** is the mnemonic acronym introduced by Michael Feathers for the first five principles named by Robert Martin, which meant five basic principles of object-oriented programming and design.
+**SOLID** 是Michael Feathers推荐的便于记忆的首字母简写，它代表了Robert Martin命名的最重要的五个面对对象编码设计原则
 
- * [S: Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
- * [O: Open/Closed Principle (OCP)](#openclosed-principle-ocp)
- * [L: Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
- * [I: Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
- * [D: Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
+ * [S: 职责单一原则 (SRP)](#职责单一原则-single-responsibility-principle-srp)
+ * [O: 开闭原则 (OCP)](#开闭原则-openclosed-principle-ocp)
+ * [L: 里氏替换原则 (LSP)](#里氏替换原则-liskov-substitution-principle-lsp)
+ * [I: 接口隔离原则 (ISP)](#接口隔离原则-interface-segregation-principle-isp)
+ * [D: 依赖反转原则 (DIP)](#依赖反转原则-dependency-inversion-principle-dip)
 
-### Single Responsibility Principle (SRP)
 
-As stated in Clean Code, "There should never be more than one reason for a class
-to change". It's tempting to jam-pack a class with a lot of functionality, like
-when you can only take one suitcase on your flight. The issue with this is
-that your class won't be conceptually cohesive and it will give it many reasons
-to change. Minimizing the amount of times you need to change a class is important.
-It's important because if too much functionality is in one class and you modify a piece of it,
-it can be difficult to understand how that will affect other dependent modules in
-your codebase.
+### 职责单一原则 Single Responsibility Principle (SRP)
 
-**Bad:**
+正如在Clean Code所述，"修改一个类应该只为一个理由"。
+人们总是易于用一堆方法塞满一个类，如同我们只能在飞机上
+只能携带一个行李箱（把所有的东西都塞到箱子里）。这样做
+的问题是：从概念上这样的类不是高内聚的，并且留下了很多
+理由去修改它。将你需要修改类的次数降低到最小很重要。
+这是因为，当有很多方法在类中时，修改其中一处，你很难知
+晓在代码库中哪些依赖的模块会被影响到。
+
+**坏:**
 
 ```php
 class UserSettings
@@ -1460,7 +1413,7 @@ class UserSettings
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 class UserAuth 
@@ -1498,16 +1451,15 @@ class UserSettings
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Open/Closed Principle (OCP)
+### 开闭原则 Open/Closed Principle (OCP)
 
-As stated by Bertrand Meyer, "software entities (classes, modules, functions,
-etc.) should be open for extension, but closed for modification." What does that
-mean though? This principle basically states that you should allow users to
-add new functionalities without changing existing code.
+正如Bertrand Meyer所述，"软件的工件（classes, modules, functions,等）
+应该对扩展开放，对修改关闭。" 然而这句话意味着什么呢？这个原则大体上表示你
+应该允许在不改变已有代码的情况下增加新的功能
 
-**Bad:**
+**坏:**
 
 ```php
 abstract class Adapter
@@ -1572,7 +1524,7 @@ class HttpRequester
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 interface Adapter
@@ -1612,24 +1564,21 @@ class HttpRequester
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Liskov Substitution Principle (LSP)
+### 里氏替换原则 Liskov Substitution Principle (LSP)
+这是一个简单的原则，却用了一个不好理解的术语。它的正式定义是
+"如果S是T的子类型，那么在不改变程序原有既定属性（检查、执行
+任务等）的前提下，任何T类型的对象都可以使用S类型的对象替代
+（例如，使用S的对象可以替代T的对象）" 这个定义更难理解:-)。
 
-This is a scary term for a very simple concept. It's formally defined as "If S
-is a subtype of T, then objects of type T may be replaced with objects of type S
-(i.e., objects of type S may substitute objects of type T) without altering any
-of the desirable properties of that program (correctness, task performed,
-etc.)." That's an even scarier definition.
+对这个概念最好的解释是：如果你有一个父类和一个子类，在不改变
+原有结果正确性的前提下父类和子类可以互换。这个听起来依旧让人
+有些迷惑，所以让我们来看一个经典的正方形-长方形的例子。从数学
+上讲，正方形是一种长方形，但是当你的模型通过继承使用了"is-a"
+的关系时，就不对了。
 
-The best explanation for this is if you have a parent class and a child class,
-then the base class and child class can be used interchangeably without getting
-incorrect results. This might still be confusing, so let's take a look at the
-classic Square-Rectangle example. Mathematically, a square is a rectangle, but
-if you model it using the "is-a" relationship via inheritance, you quickly
-get into trouble.
-
-**Bad:**
+**坏:**
 
 ```php
 class Rectangle
@@ -1671,10 +1620,7 @@ class Square extends Rectangle
     }
 }
 
-/**
- * @param Rectangle[] $rectangles
- */
-function renderLargeRectangles(array $rectangles): void
+function renderLargeRectangles(Rectangle $rectangles): void
 {
     foreach ($rectangles as $rectangle) {
         $rectangle->setWidth(4);
@@ -1688,7 +1634,7 @@ $rectangles = [new Rectangle(), new Rectangle(), new Square()];
 renderLargeRectangles($rectangles);
 ```
 
-**Good:**
+**好:**
 
 ```php
 abstract class Shape
@@ -1737,10 +1683,7 @@ class Square extends Shape
     }
 }
 
-/**
- * @param Rectangle[] $rectangles
- */
-function renderLargeRectangles(array $rectangles): void
+function renderLargeRectangles(Shape $rectangles): void
 {
     foreach ($rectangles as $rectangle) {
         if ($rectangle instanceof Square) {
@@ -1759,19 +1702,17 @@ $shapes = [new Rectangle(), new Rectangle(), new Square()];
 renderLargeRectangles($shapes);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Interface Segregation Principle (ISP)
+### 接口隔离原则 Interface Segregation Principle (ISP)
 
-ISP states that "Clients should not be forced to depend upon interfaces that
-they do not use." 
+接口隔离原则表示："调用方不应该被强制依赖于他不需要的接口"
 
-A good example to look at that demonstrates this principle is for
-classes that require large settings objects. Not requiring clients to setup
-huge amounts of options is beneficial, because most of the time they won't need
-all of the settings. Making them optional helps prevent having a "fat interface".
+有一个清晰的例子来说明示范这条原则。当一个类需要一个大量的设置项，
+为了方便不会要求调用方去设置大量的选项，因为在通常他们不需要所有的
+设置项。使设置项可选有助于我们避免产生"胖接口"
 
-**Bad:**
+**坏:**
 
 ```php
 interface Employee
@@ -1808,9 +1749,9 @@ class Robot implements Employee
 }
 ```
 
-**Good:**
+**好:**
 
-Not every worker is an employee, but every employee is a worker.
+不是每一个工人都是雇员，但是每一个雇员都是一个工人
 
 ```php
 interface Workable
@@ -1850,24 +1791,20 @@ class Robot implements Workable
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-### Dependency Inversion Principle (DIP)
+### 依赖反转原则 Dependency Inversion Principle (DIP)
 
-This principle states two essential things:
-1. High-level modules should not depend on low-level modules. Both should
-depend on abstractions.
-2. Abstractions should not depend upon details. Details should depend on
-abstractions.
+这条原则说明两个基本的要点：
+1. 高阶的模块不应该依赖低阶的模块，它们都应该依赖于抽象
+2. 抽象不应该依赖于实现，实现应该依赖于抽象
 
-This can be hard to understand at first, but if you've worked with PHP frameworks (like Symfony), you've seen an implementation of this principle in the form of Dependency
-Injection (DI). While they are not identical concepts, DIP keeps high-level
-modules from knowing the details of its low-level modules and setting them up.
-It can accomplish this through DI. A huge benefit of this is that it reduces
-the coupling between modules. Coupling is a very bad development pattern because
-it makes your code hard to refactor.
+这条起初看起来有点晦涩难懂，但是如果你使用过php框架（例如 Symfony），你应该见过
+依赖注入（DI）对这个概念的实现。虽然它们不是完全相通的概念，依赖倒置原则使高阶模块
+与低阶模块的实现细节和创建分离。可以使用依赖注入（DI）这种方式来实现它。更多的好处
+是它使模块之间解耦。耦合会导致你难于重构，它是一种非常糟糕的的开发模式
 
-**Bad:**
+**坏:**
 
 ```php
 class Employee
@@ -1902,7 +1839,7 @@ class Manager
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 interface Employee
@@ -1942,34 +1879,31 @@ class Manager
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-## Don’t repeat yourself (DRY)
+## 别写重复代码 (DRY)
 
-Try to observe the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.
+试着去遵循[DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) 原则.
 
-Do your absolute best to avoid duplicate code. Duplicate code is bad because 
-it means that there's more than one place to alter something if you need to 
-change some logic.
+尽你最大的努力去避免复制代码，它是一种非常糟糕的行为，复制代码
+通常意味着当你需要变更一些逻辑时，你需要修改不止一处。
 
-Imagine if you run a restaurant and you keep track of your inventory: all your 
-tomatoes, onions, garlic, spices, etc. If you have multiple lists that
-you keep this on, then all have to be updated when you serve a dish with
-tomatoes in them. If you only have one list, there's only one place to update!
+试想一下，如果你在经营一家餐厅并且你在记录你仓库的进销记录：所有
+的土豆，洋葱，大蒜，辣椒等。如果你有多个列表来管理进销记录，当你
+用其中一些土豆做菜时你需要更新所有的列表。如果你只有一个列表的话
+只有一个地方需要更新。
 
-Oftentimes you have duplicate code because you have two or more slightly
-different things, that share a lot in common, but their differences force you
-to have two or more separate functions that do much of the same things. Removing 
-duplicate code means creating an abstraction that can handle this set of different 
-things with just one function/module/class.
+通常情况下你复制代码是应该有两个或者多个略微不同的逻辑，它们大多数
+都是一样的，但是由于它们的区别致使你必须有两个或者多个隔离的但大部
+分相同的方法，移除重复的代码意味着用一个function/module/class创
+建一个能处理差异的抽象。
 
-Getting the abstraction right is critical, that's why you should follow the
-SOLID principles laid out in the [Classes](#classes) section. Bad abstractions can be
-worse than duplicate code, so be careful! Having said this, if you can make
-a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself 
-updating multiple places anytime you want to change one thing.
+正确的抽象是非常关键的，这正是为什么你必须学习遵守在[Classes](#classes)章节展开
+的SOLID原则，不合理的抽象比复制代码更糟糕，所有务必谨慎！说到这么多，
+如果你能设计一个合理的抽象，实现它！不要重复，否则你会发现任何时候当你
+想修改一个逻辑时你必须修改多个地方。
 
-**Bad:**
+**坏:**
 
 ```php
 function showDeveloperList(array $developers): void
@@ -2005,7 +1939,7 @@ function showManagerList(array $managers): void
 }
 ```
 
-**Good:**
+**好:**
 
 ```php
 function showList(array $employees): void
@@ -2025,7 +1959,7 @@ function showList(array $employees): void
 }
 ```
 
-**Very good:**
+**极好:**
 
 It is better to use a compact version of the code.
 
@@ -2042,11 +1976,11 @@ function showList(array $employees): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
 
-## Translations
+## 翻译
 
-This is also available in other languages:
+其他语言的翻译:
 
 *  :cn: **Chinese:**
    * [php-cpm/clean-code-php](https://github.com/php-cpm/clean-code-php)
@@ -2060,4 +1994,4 @@ This is also available in other languages:
 * :thailand: **Thai:**
    * [panuwizzle/clean-code-php](https://github.com/panuwizzle/clean-code-php)
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 返回顶部](#目录)**
